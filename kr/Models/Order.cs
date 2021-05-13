@@ -14,5 +14,6 @@ namespace kr.Models
         public DateTime orderDate { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
+        public bool isCompleet { get; set; }
     }
 }

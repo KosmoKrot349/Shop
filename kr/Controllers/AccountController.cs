@@ -115,6 +115,7 @@ namespace kr.Controllers
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, "user");
+                    UserManager.AddToRole(user.Id, "moder");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     return RedirectToAction("Index", "Home");
                 }

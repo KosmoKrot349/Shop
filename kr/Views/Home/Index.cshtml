@@ -5,29 +5,59 @@
     @using (Html.BeginForm("Index", "Home", FormMethod.Get))
     {
 
-        <div style="height:15%" >
-            @if (!String.IsNullOrEmpty(Model.selectname))
-            {<input class="form-control"  type="text" name="product" style="width: 15%;height:5%; border: 1px solid; position: absolute; left: 30%" value="@Model.selectname">}
+<div style="height:15%">
+    @if (!String.IsNullOrEmpty(Model.selectname))
+    {<input class="form-control" type="text" name="product" style="width: 15%;height:5%; border: 1px solid; position: absolute; left: 30%" value="@Model.selectname">}
 
-            else
-            { <input type="text" placeholder="Поиск" class="form-control" style="height: 5%; width: 15%; border: 1px solid; position: absolute; left: 30%" name="product">}
-        <select style="border:1px solid;position:absolute;left:45%;width:15%;height:5%;"  name="category" class="form-control">
-            @foreach (var item in Model.categories)
+    else
+    { <input type="text" placeholder="Поиск" class="form-control" style="height: 5%; width: 15%; border: 1px solid; position: absolute; left: 30%" name="product">}
+    <select style="border:1px solid;position:absolute;left:45%;width:15%;height:5%;" name="category" class="form-control">
+        @foreach (var item in Model.categories)
+        {
+            if (!String.IsNullOrEmpty(Model.selectcategory) && Model.selectcategory == item.title)
             {
-                if (!String.IsNullOrEmpty(Model.selectcategory) && Model.selectcategory == item.title)
-                {
-                    <option selected>@item.title</option>
-                }
-                else
-                {
-                    <option>@item.title</option>
-                }
+                <option selected>@item.title</option>
             }
-        </select>
-            <input type="submit" class="btn-group" style="position: absolute; height:5%;left:60%;" value="Найти">
-        </div>
+            else
+            {
+                <option>@item.title</option>
+            }
+        }
+    </select>
+    <select style="border:1px solid;position:absolute;left:60%;width:15%;height:5%;" name="sort" class="form-control">
+        @foreach (var item in Model.sorts)
+        {
+            if (Model.selectSort == item)
+            {
+        <option selected>@item</option>
+            }
+            else
+            {
+    <option>@item</option>
+            }
+        }
+    </select>
+    <select style="border:1px solid;position:absolute;left:60%; top:15%; width:15%;height:5%;" name="sortType" class="form-control">
+        @foreach (var item in Model.sortTypes)
+        {
+            if (Model.selectTypeOfSort == item)
+            {
+                <option selected>@item</option>
+            }
+            else
+            {
+                <option>@item</option>
+            }
+        }
+    </select>
+    <input type="submit" class="btn-group" style="position: absolute; height:5%;left:75%;" value="Найти">
+</div>
 
     }
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
     <div style="display: flex;justify-content: space-around;flex-wrap: wrap;width: 100%;">

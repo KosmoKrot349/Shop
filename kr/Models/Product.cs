@@ -19,6 +19,8 @@ namespace kr.Models
         public double price { get; set; }
         [Display(Name = "Фото")]
         public string img { get; set; }
+        [Display(Name = "Продано")]
+        public int countOfSels { get; set; }
         [Display(Name = "Категория")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }

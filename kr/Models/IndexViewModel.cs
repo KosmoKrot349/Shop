@@ -13,5 +13,10 @@ namespace kr.Models
         public string selectname { get; set; }
         public string selectcategory { get; set; }
 
+        public List<string> sorts = new List<string> { "По убыванию", "По возрастанию" };
+        public List<string> sortTypes = new List<string> { "По цене", "По названию", "По кол-ву продаж" };
+        public string selectSort { get; set; }
+        public string selectTypeOfSort { get; set; }
+
     }
 }

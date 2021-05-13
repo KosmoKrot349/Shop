@@ -190,6 +190,10 @@
     <Compile Include="Migrations\202012131636122_addorders.Designer.cs">
       <DependentUpon>202012131636122_addorders.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104051331378_newmigr.cs" />
+    <Compile Include="Migrations\202104051331378_newmigr.Designer.cs">
+      <DependentUpon>202104051331378_newmigr.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddProductsViewModel.cs" />
@@ -294,6 +298,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012131636122_addorders.resx">
       <DependentUpon>202012131636122_addorders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104051331378_newmigr.resx">
+      <DependentUpon>202104051331378_newmigr.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

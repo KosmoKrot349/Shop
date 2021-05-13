@@ -154,5 +154,42 @@ namespace kr.Controllers
 
             return View(dbContext.Orders.Include(o=>o.Product).ToList());
         }
+
+
+
+
+
+        //действия с заказами
+        //выполнение заказа
+        [Authorize(Roles = "moder")]
+        public ActionResult CompleetOrder(int? Id)
+        {
+            if (Id == null) return RedirectToAction("Products", "Admin");
+            Order order = dbContext.Orders.Include(p => p.Product).Where(o => o.Id == Id).FirstOrDefault();
+            if (order != null)
+            {
+                order.isCompleet = true;
+                Product pr = dbContext.Products.Find(order.Product.Id);
+                pr.countOfSels += order.countProduct;
+                dbContext.SaveChanges();
+            }
+            return RedirectToAction("Orders", "Admin");
+        }
+
+        //удаление заказа
+        [Authorize(Roles = "moder")]
+        public ActionResult DeleteOrder(int? id)
+        {
+            if (id == null) return RedirectToAction("Orders", "Admin");
+            Order order = dbContext.Orders.Include(p => p.Product).Where(o => o.Id == id).FirstOrDefault();
+            if (order != null)
+            {
+                Product pr = dbContext.Products.Find(order.Product.Id);
+                pr.count += order.countProduct;
+                dbContext.Orders.Remove(order);
+                dbContext.SaveChanges();
+            }
+            return RedirectToAction("Orders", "Admin");
+        }
     }
 }

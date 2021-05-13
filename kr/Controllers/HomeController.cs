@@ -14,9 +14,11 @@ namespace kr.Controllers
     {
         ApplicationDbContext dbContext = new ApplicationDbContext();
 
-        public ActionResult Index(string product,string category )
+        public ActionResult Index(string product,string category,string sort, string sortType )
         {
             IQueryable<Product> pr = dbContext.Products.Include(p => p.Category);
+            if (String.IsNullOrEmpty(sort)) { sort = "По убыванию"; }
+            if (String.IsNullOrEmpty(sortType)) { sortType = "По цене"; }
             if (!String.IsNullOrEmpty(category)&&category!="Все")
             {
                 pr = pr.Where(p => p.Category.title == category);
@@ -25,6 +27,17 @@ namespace kr.Controllers
             {
                 pr = pr.Where(p => p.title.Contains(product));
             }
+            if(sortType== "По цене" && sort== "По возрастанию") pr = pr.OrderBy(c=>c.price);
+            if (sortType == "По цене" && sort == "По убыванию") pr = pr.OrderByDescending(c => c.price);
+
+            if (sortType == "По названию" && sort == "По возрастанию") pr = pr.OrderBy(c => c.title);
+            if (sortType == "По названию" && sort == "По убыванию") pr = pr.OrderByDescending(c => c.title);
+
+            if (sortType == "По кол-ву продаж" && sort == "По возрастанию") pr = pr.OrderBy(c => c.countOfSels);
+            if (sortType == "По кол-ву продаж" && sort == "По убыванию") pr = pr.OrderByDescending(c => c.countOfSels);
+
+
+
 
             List<Category> categories = dbContext.Categories.ToList();
             categories.Insert(0, new Category { title = "Все", Id = 0 });
@@ -35,7 +48,10 @@ namespace kr.Controllers
                 viewModel.categories = categories;
             if (!String.IsNullOrEmpty(product)) viewModel.selectname = product;
             if (!String.IsNullOrEmpty(category) && category != "Все") viewModel.selectcategory = category;
-            
+           viewModel.selectSort = sort;
+            viewModel.selectTypeOfSort = sortType;
+
+
             return View(viewModel);
         }
         public ActionResult About()
@@ -75,6 +91,7 @@ namespace kr.Controllers
             order.Email = User.Identity.Name;
             order.countProduct = BuyCount;
             order.orderPrice = dbContext.Products.Where(p => p.Id == id).FirstOrDefault().price * (double)BuyCount;
+            order.isCompleet = false;
             dbContext.Orders.Add(order);
             dbContext.SaveChanges();
             return RedirectToAction("EndOrder","Home");
