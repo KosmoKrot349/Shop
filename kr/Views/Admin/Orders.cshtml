@@ -1,0 +1,28 @@
+﻿@model List<kr.Models.Order>
+@{
+    ViewBag.Title = "Заказы";
+}
+<table class="table table-striped">
+    <tr>
+        <td>Id</td>
+        <td>Email</td>
+        <td>Цена</td>
+        <td>Кол-во товара</td>
+        <td>Товар</td>
+        <td>Дата заказа</td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>@item.Id</td>
+    <td>@item.Email</td>
+    <td>@item.orderPrice</td>
+    <td>@item.countProduct</td>
+    <td>@item.Product.title</td>
+    <td>@item.orderDate</td>
+</tr>
+    }
+
+</table>
+

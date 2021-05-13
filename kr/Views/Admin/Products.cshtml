@@ -1,0 +1,33 @@
+﻿@model List<kr.Models.Product>
+@{
+    ViewBag.Title = "Товары";
+}
+
+<table class="table table-striped">
+    <tr>
+        <td>Id</td>
+        <td>Название</td>
+        <td>Категория</td>
+        <td>Описание</td>
+        <td>Цена</td>
+        <td>Кол-во на складе</td>
+        <td>Картинка</td>
+        <td>Действия</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>@item.Id</td>
+    <td>@item.title</td>
+    <td>@item.Category.title</td>
+    <td>@item.desc</td>
+    <td>@item.price</td>
+    <td>@item.count</td>
+    <td><img style="height:50pt;width:50pt" src="@item.img"></td>
+<td><a href="/Admin/EditProduct/@item.Id">Изменить</a>/<a href="/Admin/DeleteProduct/@item.Id">Удалить</a></td> 
+</tr>
+            
+            }
+        
+    </table>
+@Html.ActionLink("Добавить","AddProduct", "Admin");

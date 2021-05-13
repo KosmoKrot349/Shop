@@ -1,0 +1,33 @@
+﻿@model kr.Models.Product
+@{
+    ViewBag.Title = "Buy";
+}
+
+<div>
+    <h2>@Model.title</h2>
+    <img src="@Model.img" style="width:20%;height:20%;">
+    <div>
+        @Model.desc
+        </div>
+ @using (Html.BeginForm("Buy", "Home", FormMethod.Post)) { 
+     <input type="hidden" name="id" value="@Model.Id">
+ <div style="display:flex">
+ <input style="display:inline" name="BuyCount" type="range" min="1" max="@Model.count" value="1" id="countRange" onchange="func1()"><div style="display:inline" id="rangeShow">Кол-во: 1</div>
+     </div>
+ <div id="sum">Общая цена: @Model.price</div>
+ <input type="submit" value="Оформить заказ" class="btn btn-primary">
+ }
+
+
+    </div>
+
+<script type="text/javascript">
+    function func1() {
+        var el = document.getElementById("countRange");
+        var divel = document.getElementById("rangeShow");
+        divel.innerHTML = "Кол-во: " + el.value;
+        var sumel = document.getElementById("sum");
+        sumel.innerHTML ="Общая цена: "+@Model.price* el.value;
+
+    }
+    </script>

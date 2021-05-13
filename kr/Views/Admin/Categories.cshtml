@@ -1,0 +1,25 @@
+﻿@model List<kr.Models.Category>
+@{
+    ViewBag.Title = "Категории";
+}
+
+<table class="table table-striped">
+    <tr>
+        <td>Id</td>
+        <td>Название</td>
+        <td>Действия</td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.title</td>
+            <td><a href="/Admin/EditCategory/@item.Id">Изменить</a>/<a href="/Admin/DeleteCategory/@item.Id">Удалить</a></td>
+        </tr>
+    }
+
+</table>
+@Html.ActionLink("Добавить","AddCategory");
+
+

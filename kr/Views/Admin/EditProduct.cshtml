@@ -1,0 +1,68 @@
+﻿@model kr.Models.AddProductsViewModel
+@{
+    ViewBag.Title = "Изменить товар";
+}
+@using (Html.BeginForm("EditProduct", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="Id" value="@Model.Product.Id">
+    <div class="form-horizontal">
+        <h4>Изменить товар</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="title" value="@Model.Product.title" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.desc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea rows="5" cols="100" name="desc" class="form-control">@Model.Product.desc</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.count, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="count" value="@Model.Product.count" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="price" value="@Model.Product.price" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.img, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="upload" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control" name="CategoryTitle">
+                    @foreach (var item in Model.Categories)
+                    {
+                        if (item.title != Model.Product.Category.title)
+                        {<option>@item.title</option>}
+                        else {<option selected>@item.title</option> }
+                    }
+
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Назад", "Products")
+</div>
