@@ -24,11 +24,14 @@
     <td>@item.Product.title</td>
     <td>@item.orderDate</td>
    @{ if (item.isCompleet == true)
-       {<td>Выполнен</td>}
-       else
-       {<td>Обрабатывается</td> }
+       {<td>Выполнен</td>
+ <td><a href="/Admin/DeleteOrder/@item.Id">Удалить</a></td>
        }
-<td><a href="/Admin/CompleetOrder/@item.Id">Выполнить</a>/<a href="/Admin/DeleteOrder/@item.Id">Удалить</a></td>
+       else
+       {<td>Обрабатывается</td> 
+        <td><a href="/Admin/CompleetOrder/@item.Id">Выполнить</a>/<a href="/Admin/DeleteOrder/@item.Id">Удалить</a></td>
+       }
+       }
 </tr>
     }
 

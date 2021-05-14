@@ -164,7 +164,7 @@ namespace kr.Controllers
         [Authorize(Roles = "moder")]
         public ActionResult CompleetOrder(int? Id)
         {
-            if (Id == null) return RedirectToAction("Products", "Admin");
+            if (Id == null) return RedirectToAction("Orders", "Admin");
             Order order = dbContext.Orders.Include(p => p.Product).Where(o => o.Id == Id).FirstOrDefault();
             if (order != null)
             {
@@ -184,8 +184,11 @@ namespace kr.Controllers
             Order order = dbContext.Orders.Include(p => p.Product).Where(o => o.Id == id).FirstOrDefault();
             if (order != null)
             {
-                Product pr = dbContext.Products.Find(order.Product.Id);
-                pr.count += order.countProduct;
+                if (order.isCompleet == false)
+                {
+                    Product pr = dbContext.Products.Find(order.Product.Id);
+                    pr.count += order.countProduct;
+                }
                 dbContext.Orders.Remove(order);
                 dbContext.SaveChanges();
             }
