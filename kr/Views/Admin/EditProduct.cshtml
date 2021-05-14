@@ -14,6 +14,7 @@
             @Html.LabelFor(model => model.Product.title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="text" name="title" value="@Model.Product.title" class="form-control">
+                @Html.ValidationMessageFor(model => model.Product.title, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
@@ -26,12 +27,14 @@
             @Html.LabelFor(model => model.Product.count, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="text" name="count" value="@Model.Product.count" class="form-control">
+                @Html.ValidationMessageFor(model => model.Product.count, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Product.price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="text" name="price" value="@Model.Product.price" class="form-control">
+                @Html.ValidationMessageFor(model => model.Product.price, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
@@ -46,7 +49,7 @@
                 <select class="form-control" name="CategoryTitle">
                     @foreach (var item in Model.Categories)
                     {
-                        if (item.title != Model.Product.Category.title)
+                        if (item.Id != Model.Product.CategoryId)
                         {<option>@item.title</option>}
                         else {<option selected>@item.title</option> }
                     }

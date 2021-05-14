@@ -13,25 +13,28 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Product.title, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-          <input type="text" name="title" class="form-control">
+            <input type="text" name="title" class="form-control" value="@Model.Product.title" />
+            @Html.ValidationMessageFor(model => model.Product.title, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Product.desc, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <textarea rows="5" cols="100" name="desc" class="form-control"></textarea>
+            <textarea rows="5" name="desc" class="form-control">@Model.Product.desc</textarea>
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Product.count, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input type="text" name="count" class="form-control">
+            <input type="text" name="count" class="form-control" value="@Model.Product.count" />
+            @Html.ValidationMessageFor(model => model.Product.count, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Product.price, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input type="text" name="price" class="form-control">
+            <input type="text" name="price" class="form-control" value="@Model.Product.price" />
+            @Html.ValidationMessageFor(model => model.Product.price, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
@@ -46,7 +49,10 @@
            <select class="form-control" name="CategoryTitle">
              @foreach (var item in Model.Categories)
              {
-                 <option>@item.title</option>
+                 @if (item.Id==Model.Product.CategoryId) {<option selected>@item.title</option>}
+                 else { 
+           <option>@item.title</option>
+                }
              }
 
            </select>

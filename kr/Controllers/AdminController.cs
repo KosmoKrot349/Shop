@@ -38,24 +38,32 @@ namespace kr.Controllers
         [Authorize(Roles = "moder")]
         public ActionResult AddCategory(Category cat)
         {
-            dbContext.Categories.Add(cat);
-            dbContext.SaveChanges();
-            return RedirectToAction("Categories","Admin");
+            if (ModelState.IsValid)
+            {
+                dbContext.Categories.Add(cat);
+                dbContext.SaveChanges();
+                return RedirectToAction("Categories", "Admin");
+            }
+            return View(cat);
         }
         [HttpGet]
         [Authorize(Roles = "moder")]
         public ActionResult EditCategory(int? id)
         {
-            if(id==null) return RedirectToAction("Categories", "Admin");
-            return View(dbContext.Categories.Where(c=>c.Id==id).FirstOrDefault());
+                if (id == null) return RedirectToAction("Categories", "Admin");
+                return View(dbContext.Categories.Where(c => c.Id == id).FirstOrDefault());
         }
         [HttpPost]
         [Authorize(Roles = "moder")]
         public ActionResult EditCategory(Category cat)
         {
-            dbContext.Entry(cat).State = EntityState.Modified;
-            dbContext.SaveChanges();
-            return RedirectToAction("Categories", "Admin");
+            if (ModelState.IsValid)
+            {
+                dbContext.Entry(cat).State = EntityState.Modified;
+                dbContext.SaveChanges();
+                return RedirectToAction("Categories", "Admin");
+            }
+            return View(cat);
         }
         [Authorize(Roles = "moder")]
         public ActionResult DeleteCategory(int? id)
@@ -77,29 +85,38 @@ namespace kr.Controllers
         {
             AddProductsViewModel apvm = new AddProductsViewModel();
             apvm.Categories = dbContext.Categories.ToList();
+            apvm.Product = new Product();
             return View(apvm);
         }
         [HttpPost]
         [Authorize(Roles = "moder")]
-        public ActionResult AddProduct(string title, string desc, int count, double price, HttpPostedFileBase upload,string CategoryTitle)
+        public ActionResult AddProduct([Bind(Include = "title,desc,count,price")] Product prod, HttpPostedFileBase upload,string CategoryTitle)
         {
-            Product prod = new Product();
-            prod.title = title;
-            prod.desc = desc;
-            prod.count = count;
-            prod.price = price;
-            if (upload != null)
-            {
-                // получаем имя файла
-                string fileName = System.IO.Path.GetFileName(upload.FileName);
-                // сохраняем файл в папку Files в проекте
-                upload.SaveAs(Server.MapPath("~/Images/" + fileName));
-                prod.img = "/Images/" + fileName;
-            }
+            AddProductsViewModel apvm = new AddProductsViewModel();
             prod.CategoryId = dbContext.Categories.Where(c => c.title == CategoryTitle).FirstOrDefault().Id;
-            dbContext.Products.Add(prod);
-            dbContext.SaveChanges();
-            return RedirectToAction("Products", "Admin");
+            apvm.Product = prod;
+
+            apvm.Categories = dbContext.Categories.ToList();
+
+            if (ModelState.IsValidField("title") == false) { ModelState.AddModelError("Product.title","Поле не заполненно"); }
+            if (ModelState.IsValidField("count") == false) { ModelState.AddModelError("Product.count", "Поле не заполненно либо заполненно не верно"); }
+            if (ModelState.IsValidField("price") == false) { ModelState.AddModelError("Product.price", "Поле не заполненно либо заполненно не верно"); }
+            if (ModelState.IsValid)
+            {
+                if (upload != null)
+                {
+                    // получаем имя файла
+                    string fileName = System.IO.Path.GetFileName(upload.FileName);
+                    // сохраняем файл в папку Files в проекте
+                    upload.SaveAs(Server.MapPath("~/Images/" + fileName));
+                    prod.img = "/Images/" + fileName;
+                }
+                dbContext.Products.Add(prod);
+                dbContext.SaveChanges();
+                return RedirectToAction("Products", "Admin");
+
+            }
+            return View(apvm);
         }
         [HttpGet]
         [Authorize(Roles = "moder")]
@@ -114,26 +131,31 @@ namespace kr.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "moder")]
-        public ActionResult EditProduct(int Id, string title, string desc, int count, double price, HttpPostedFileBase upload, string CategoryTitle)
+        public ActionResult EditProduct([Bind(Include = "Id,title,desc,count,price")] Product prod, HttpPostedFileBase upload, string CategoryTitle)
         {
-            Product prod = new Product();
-            prod.Id = Id;
-            prod.title = title;
-            prod.desc = desc;
-            prod.count = count;
-            prod.price = price;
-            if (upload != null)
-            {
-                // получаем имя файла
-                string fileName = System.IO.Path.GetFileName(upload.FileName);
-                // сохраняем файл в папку Files в проекте
-                upload.SaveAs(Server.MapPath("~/Images/" + fileName));
-                prod.img = "/Images/" + fileName;
-            }
+            AddProductsViewModel apvm = new AddProductsViewModel();
             prod.CategoryId = dbContext.Categories.Where(c => c.title == CategoryTitle).FirstOrDefault().Id;
-            dbContext.Entry(prod).State = EntityState.Modified;
-            dbContext.SaveChanges();
-            return RedirectToAction("Products", "Admin");
+            apvm.Product = prod;
+            apvm.Categories = dbContext.Categories.ToList();
+
+            if (ModelState.IsValidField("title") == false) { ModelState.AddModelError("Product.title", "Поле не заполненно"); }
+            if (ModelState.IsValidField("count") == false) { ModelState.AddModelError("Product.count", "Поле не заполненно либо заполненно не верно"); }
+            if (ModelState.IsValidField("price") == false) { ModelState.AddModelError("Product.price", "Поле не заполненно либо заполненно не верно"); }
+            if (ModelState.IsValid)
+            {
+                if (upload != null)
+                {
+                    // получаем имя файла
+                    string fileName = System.IO.Path.GetFileName(upload.FileName);
+                    // сохраняем файл в папку Files в проекте
+                    upload.SaveAs(Server.MapPath("~/Images/" + fileName));
+                    prod.img = "/Images/" + fileName;
+                }
+                dbContext.Entry(prod).State = EntityState.Modified;
+                dbContext.SaveChanges();
+                return RedirectToAction("Products", "Admin");
+            }
+            return View(apvm);
         }
         [Authorize(Roles = "moder")]
         public ActionResult DeleteProduct(int? id)
