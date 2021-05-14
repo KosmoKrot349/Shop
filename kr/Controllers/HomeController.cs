@@ -84,6 +84,7 @@ namespace kr.Controllers
         public ActionResult Buy(int id,int BuyCount)
         {
             Product pr = dbContext.Products.Where(p => p.Id == id).FirstOrDefault();
+          //  if(pr.count>=BuyCount)
             pr.count -= BuyCount;
             Order order = new Order();
             order.orderDate = DateTime.Now;
